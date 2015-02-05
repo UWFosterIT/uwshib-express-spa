@@ -2,12 +2,12 @@ var passport = require('passport');
 var uwshib   = require('passport-uwshib');
 var config   = require('../config');
 
+//
+// see passport-uwshib for how this works
+// https://github.com/drstearns/passport-uwshib
+//
 var initializeUWShib = function(app) {
-  // setup shibboleth in test or production etc...but not on dev box
-  // see passport-uwshib for how this works
-  //   https://github.com/drstearns/passport-uwshib
   if (config.domain != 'localhost') {
-
     app.use(passport.initialize());
     app.use(passport.session());
 
@@ -21,12 +21,7 @@ var initializeUWShib = function(app) {
 
     passport.use(strategy);
 
-    //These functions are called to serialize the user
-    //to session state and reconsitute the user on the
-    //next request. Normally, you'd save only the netID
-    //and read the full user profile from your database
-    //during deserializeUser, but for this example, we
-    //will save the entire user just to keep it simple
+    // see passport-uwshib for what the serialization is for
     passport.serializeUser(function(user, done){
         done(null, user);
     });
@@ -64,6 +59,6 @@ var currentUser = function user(req){
   return config.domain === 'localhost' ? config.testUser : req.user;
 };
 
-module.exports.initialize = initializeUWShib;
-module.exports.authorize = verifyAuthorization;
+module.exports.initialize  = initializeUWShib;
+module.exports.authorize   = verifyAuthorization;
 module.exports.currentUser = currentUser;
