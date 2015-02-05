@@ -1,17 +1,40 @@
-## TO DO
-- [ ] [Items listed here](https://tree.taiga.io/project/nogbit-devops-infrastructure/task/40)
-- [ ] go through all the steps and double check
-- [ ] check for typos etc
-- [ ] Make this open source
+## UW Shibboleth NodeJS Express with Nginx proxy
+This repo contains a working example of a NodeJS web application using Express that can act as a Shibboleth Service Provider to authorize users via the UW Web Login and a UW Identity Provider.  It also includes an nginx conf that can eaisly be duplicated to permit multiple domains running on the same server.
 
-## UW Shibboleth NodeJS/Express with Nginx proxy
-This repo contains an example NodeJS web application using Express.  It also includes an nginx conf that can eaisly be duplicated to permit multiple domains running on the same server.
+### DEVELOPMENT SETUP AND START
 
-### OS and Nginx
-You can skip this section if you already have a server setup.  It's included here to provide a complete view into what is known to work in production which always seems to be lacking elsewhere.  The key thing here is this work nicely with a wildcard cert such as ``*.foster.washington.edu`` and makes for a very simple to manage nginx proxy into your NodeJS apps.
+#### Express
+The settings in ``config.js`` should work as is in development, edit it as needed.
 
-#### Ubuntu 14.04
-Tweak instructions for other servers.  This assumes you created a new user and are logged in as it.  Ideally we don't want to run our apps as the root account and the following steps provide that for us.  NOTE: You will need to manually edit your bash.rc whenever you install a newer version of node via nvm.
+    git clone git@github.com:UWFosterIT/uwshib-express-spa.git
+    cd uwshib-express-spa
+    npm install
+    vim config.js
+
+#### UW Shibboleth
+The file ``helpers\shibboleth`` implements the [``passport-uwshib``](https://github.com/drstearns/passport-uwshib) node module created by David Stearns. This implementation of it exports a method that your routes can use to require authentication via UW's Shibboleth Identity Provider.  It also exports a user context that is a dummy user while in development.
+
+#### Startup
+You should change the name of ``bin/mysiteWWW``.  It's a good idea to name the file something like ``scholarshipsWWW`` for example so it represents what your app is or does. The file name will show up by default in the process list if using [pm2](https://github.com/Unitech/pm2) or something similar.
+
+    node bin/mysiteWWW
+
+Now browse to [http://localhost:3000](http://localhost:3000). You are all set.  Tweak things as needed, add more routes etc.
+
+### PRODUCTION SETUP AND START
+What works for us are the instructions below.  This is running on Ubuntu Server 14.0 with Nginx as a proxy.  The proxy enables us to let Nginx do all the SSL work in conjunction with a wildcard cert ``*.foster.washington.edu``. Each site has it's own Nginx configuration file and instance of this repo.
+
+If you want express to do the SSL work without a proxy you can eaisly in ``bin/mySiteWWW`` use ``https.createServer({key: config.key, cert: config.cert}, app);`` instead of ``http.createServer(app);``, but just remember that you will only be able to serve a single site without some hackery express server wrapper code.
+
+**Sample Prereqruisite Checklist**
+- [ ] Setup a server, the jsteps below use Ubuntu Server 14.04
+- [ ] Have a DNS entry made for each site that you want to serve
+- [ ] [Get a certificate for your server](https://wiki.cac.washington.edu/display/infra/UW+Certificate+Services)
+- [ ] [Have access to register your Shibboleth SP](https://wiki.cac.washington.edu/display/infra/UW+Certificate+Services)
+- [ ] Have a proxy setup on your server like the steps provided below.
+
+#### NVN and Node
+The following assumes you created a new user and are logged in as it.  Ideally we don't want to run our apps as the root account and the following steps provide that for us.  **NOTE:** You will need to manually edit your bash.rc whenever you install a newer version of node via nvm.
 
     cd ~/
     curl https://raw.githubusercontent.com/creationix/nvm/v0.18.0/install.sh | bash
@@ -34,35 +57,32 @@ Make it so our non root account can run ports (80 for example) that are typicall
 2. Paste into a file ``/usr/local/share/ca-certificates/UniversityOfWashington.crt``
 3. Run ``sudo update-ca-certificates -v``...the output should be very long, and at the end should have ``1 added, 0 removed; done``, if not, it didn't work.
 
-### Express NodeJS Server
-No clone this onto your server (or locally and deploy somehow).  For ``sitename.conf`` you may want to be explicit and instead name it something like ``scholarships.foster.washington.edu``. You can do this any number of times.  Nginx will automatically pick up any files you have in this directory.  Just make sure to edit them to have the correct paths to your cert and key as well as the correct domain name and port numbers.  Everything must match up otherwise your proxy wont work.
+#### Express NodeJS Server
+You can use your CI server or some other deployment method to deploy your app.  The steps below help you with the initial install and run.  Once deployed you no longer need the ``sitesname.conf`` file locally in your repo.
 
     cd ~/
-    git clone [this repo]
+    git clone git@github.com:UWFosterIT/uwshib-express-spa.git
+    cd uwshib-express-spa
     npm install
     cp sitename.conf /etc/nginx/conf.d/sitename.conf
+    sudo service nginx restart
 
-#### Startup in Development
-On a development box the site wont fire up the Shibboleth module and will simply return a dummy user for a user context.
+Edit your ``sitename.conf`` file to have it's contents match your server name, certificate and key paths.  Also make sure the proxy port is available and that you use the same one in the following steps when starting your node app. It might be good practice to have the fqdn in the filename
 
-    node bin/mysiteWWW
-
-You should change the name of the ``mysiteWWW``.  It's a good idea to name the file something like ``scholarshipsWWW`` for example so it represents what your app is or does. The file name will show up by default in the process list if using [pm2](https://github.com/Unitech/pm2) or something similar.
-
-#### Startup in Production
 The goal is to set all configuration via environment variables as this will make your app more flexible in the long run to run on different platforms.  Right now this repo isn't using something like Foreman and instead processes everything via its ``config.js`` file for simplicity.
 
-It's important here that the PORT below match the site you want to proxy in the nginx conf files above as well as the DOMAIN. This also assumes you are running this command from the home directory of the user. You can serve https on your express app via port 3000 for example while Nginx sits in front of that listening on 443 to proxy into port 3000.
+
+##### Start your Express app
+It's important here that the ``PORT`` below match the site you want to proxy in the nginx conf files above as well as the ``DOMAIN``. Also, the ``DOMAIN`` is your Shibboleth entitity ID and must match the FQDN.
 
     cd ~
     CERT=[FullPathToPEM] KEY=[TheFullPathToKey] DOMAIN=[SiteFQDN] PORT=[ValueUsedInNginxConf] node [FullPathToNodeApp]
 
-Example using what exists in this repository...
+Example using what exists in this repository...(secure your key as you see fit).
 
-    CERT=/home/webuser/certs/sslcert.pem KEY=/home/webuser/certs/sslcert.key DOMAIN=scholarships.foster.washington.edu PORT=3001 node uwshib-express-spa/bin/scholarshipsWWW
+    CERT=/home/webuser/certs/sslcert.pem KEY=/home/webuser/certs/sslcert.key DOMAIN=scholarships.foster.washington.edu PORT=3000 node uwshib-express-spa/bin/scholarshipsWWW
 
-#### Startup in Production using PM2
-    npm install -g pm2
-    pm2 list
-    pm2 logs
-```
+#### Testing Shibboleth in production
+At a minimum your meta data at https://yoursite.yourdept.washington.edu/Shibboleth.sso/Metadata should load without problems.  If that page doesn't load then you have configured something incorrectly.  Once it does load, you should be able to auto register at https://iam-tools.u.washington.edu/spreg.
+
+If upon registering your site there with the *Get metadata from the SP* checked on their form and that registration says you need to do it manually then you may have some sort of mismatch between your nginx conf and or express env vars.

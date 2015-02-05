@@ -3,22 +3,12 @@
 var app    = require('../app');
 var config = require('../config');
 var http   = require('http');
-var https  = require('https');
 var server = null;
 
 app.set('port', config.port);
 app.enable('trust proxy');
 
-// we only need https outside of a dev environement
-if (config.domain === 'localhost') {
-  server = http.createServer(app);
-} else {
-  // create the HTTPS server with the express app as the handler
-  // while we use Nginx on our server we don't techically need https on express
-  // however, in order for passport-saml to work correctly it needs SSL
-  server = https.createServer({key: config.key, cert: config.cert}, app);
-}
-
+server = http.createServer(app);
 server.listen(config.port);
 server.on('error', onError);
 server.on('listening', onListening);

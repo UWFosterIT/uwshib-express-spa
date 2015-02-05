@@ -8,7 +8,7 @@ var fs           = require('fs');
 // SECRET is the full path to the secret file used for sessions
 config = {
   domain:      process.env.DOMAIN || 'localhost',
-  port:        process.env.PORT   || 4567,
+  port:        process.env.PORT   || 3000,
   certFile:    process.env.CERT   || "",
   keyFile:     process.env.KEY    || "",
   secretFile:  process.env.SECRET || __dirname + "/session_secret",
