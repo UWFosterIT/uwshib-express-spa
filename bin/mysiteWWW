@@ -1,4 +1,6 @@
 #!/usr/bin/env node
+'use strict';
+/* eslint-disable no-multi-spaces, key-spacing, no-use-before-define, no-process-exit */
 
 var app    = require('../app');
 var config = require('../config');
@@ -13,7 +15,7 @@ server.on('error', onError);
 server.on('listening', onListening);
 
 function onListening() {
-  console.log('Listening for requests on port %d', server.address().port)
+  console.log('Listening for requests on port %d', server.address().port);
 }
 
 function onError(error) {
@@ -22,8 +24,8 @@ function onError(error) {
   }
 
   var bind = typeof port === 'string'
-    ? 'Pipe ' + port
-    : 'Port ' + port
+    ? 'Pipe ' + config.port
+    : 'Port ' + config.port;
 
   // handle specific listen errors with friendly messages
   switch (error.code) {

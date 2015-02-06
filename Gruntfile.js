@@ -20,7 +20,8 @@ module.exports = function(grunt) {
       target: [
         '*.js',
         'test/acceptance/*-spec.js',
-        'test/server/heartbeat-spec.js'
+        'test/server/*-spec.js',
+        'bin/mysiteWWW'
       ]
     },
 
