@@ -1,4 +1,4 @@
-/* eslint-disable no-multi-spaces, key-spacing */
+/* eslint-disable key-spacing */
 'use strict';
 
 var fs           = require('fs');

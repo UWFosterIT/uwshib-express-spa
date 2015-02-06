@@ -1,11 +1,17 @@
+'use strict';
+
 var express = require('express');
 
 module.exports = function(shibboleth) {
+
+  /*eslint-disable new-cap */
   var router   = express.Router();
+  /*eslint enable*/
+
   var siteName = 'UW Shibboleth SPA Multiserver with Nginx proxy';
 
   router.get('/open.json', function(req, res) {
-    msg = {
+    var msg = {
       siteName: siteName,
       message: 'Success...this is NOT protected by shibboleth',
       note: 'However, due to sessions etc you may have a user context'
@@ -24,7 +30,7 @@ module.exports = function(shibboleth) {
     //   is the actual UW Web Login authenticated user when logged in
     //   is null in production or test when not logged in
     //
-    obj = {
+    var obj = {
       siteName: siteName,
       message: 'First redirects to UW Web Login on test or dev, then back here',
       user: req.user != null ? "UW User exists" : "No UW user for this request",
@@ -34,4 +40,4 @@ module.exports = function(shibboleth) {
   });
 
   return router;
-}
+};

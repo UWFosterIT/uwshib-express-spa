@@ -19,9 +19,11 @@ module.exports = function(grunt) {
       },
       target: [
         '*.js',
-        'test/acceptance/*-spec.js',
-        'test/server/*-spec.js',
-        'bin/mysiteWWW'
+        'test/acceptance/*.js',
+        'test/server/*.js',
+        'bin/mysiteWWW',
+        'helpers/*.js',
+        'routes/*.js'
       ]
     },
 

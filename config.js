@@ -1,4 +1,4 @@
-/* eslint-disable no-multi-spaces, key-spacing */
+/* eslint-disable key-spacing */
 var fs   = require('fs');
 var path = require('path');
 

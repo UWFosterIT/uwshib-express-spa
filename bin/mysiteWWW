@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 'use strict';
-/* eslint-disable no-multi-spaces, key-spacing, no-use-before-define, no-process-exit */
+/* eslint-disable key-spacing, no-use-before-define, no-process-exit */
 
 var app    = require('../app');
 var config = require('../config');
