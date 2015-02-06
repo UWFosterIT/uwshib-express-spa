@@ -21,9 +21,9 @@ app.use(favicon(__dirname + '/public/favicon.ico'));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(session({
     secret: fs.readFileSync(config.secretFile, 'utf-8'),
-    cookie: {secret: true, secure: true},
+    cookie: {secret: true},
     resave: false,
-    saveUninitialized: true,
+    saveUninitialized: true
 }));
 
 shibboleth.initialize(app);
