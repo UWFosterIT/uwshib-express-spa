@@ -1,6 +1,9 @@
+/* eslint-disable no-multi-spaces, key-spacing */
+'use strict';
+
 var fs           = require('fs');
 var path         = require('path');
-var express      = require("express");
+var express      = require('express');
 var favicon      = require('serve-favicon');
 var morgan       = require('morgan');
 var bodyParser   = require('body-parser');
@@ -16,7 +19,7 @@ app.use(morgan(process.env.LOGFORMAT || 'dev'));
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json({type: 'application/json'}));
 app.use(cookieParser());
-app.use(favicon(__dirname + '/public/favicon.ico'));
+app.use(favicon(path.join(__dirname, '/public/favicon.ico')));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(session({
     secret: fs.readFileSync(config.secretFile, 'utf-8'),
@@ -35,9 +38,9 @@ app.use(function(req, res, next) {
 });
 
 // error handler, no stacktraces leaked to user outside of dev environment
-app.use(function(err, req, res, next) {
-  stack = app.get('env') === 'development' ? err.stack : {};
-  msg   = { message: err.message, error: stack };
+app.use(function(err, req, res) {
+  var stack = app.get('env') === 'development' ? err.stack : {};
+  var msg   = { message: err.message, error: stack };
 
   res.status(err.status || 500).json(msg);
 });

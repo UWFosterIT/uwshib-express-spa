@@ -22,7 +22,8 @@
   },
   "homepage": "https://github.com/UWFosterIT/uwshib-express-spa",
   "scripts": {
-    "start": "node ./bin/mySiteWWW"
+    "start": "node ./bin/mySiteWWW",
+    "test": "grunt test"
   },
   "dependencies": {
     "body-parser": "^1.11.0",
@@ -34,5 +35,14 @@
     "passport": "^0.2.1",
     "passport-uwshib": "0.0.6",
     "serve-favicon": "~2.2.0"
+  },
+  "devDependencies": {
+    "grunt": "^0.4.5",
+    "grunt-contrib-watch": "^0.6.1",
+    "grunt-eslint": "^5.2.0",
+    "grunt-express-server": "^0.4.19",
+    "grunt-mocha-cov": "^0.3.0",
+    "grunt-simple-mocha": "^0.4.0",
+    "grunt-webdriver": "^0.4.8"
   }
 }
