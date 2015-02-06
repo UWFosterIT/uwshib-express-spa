@@ -3,12 +3,11 @@
 var app    = require('../app');
 var config = require('../config');
 var http   = require('http');
-var server = null;
 
 app.set('port', config.port);
 app.enable('trust proxy');
 
-server = http.createServer(app);
+var server = http.createServer(app);
 server.listen(config.port);
 server.on('error', onError);
 server.on('listening', onListening);

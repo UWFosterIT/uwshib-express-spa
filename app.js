@@ -5,14 +5,13 @@ var favicon      = require('serve-favicon');
 var morgan       = require('morgan');
 var bodyParser   = require('body-parser');
 var cookieParser = require('cookie-parser');
-var session      = require('express-session');
+var session      = require('cookie-session');
 var shibboleth   = require('./helpers/shibboleth');
 var config       = require('./config');
 
 // Setup Express
 var app = express();
 
-app.locals.shibboleth = null;
 app.use(morgan(process.env.LOGFORMAT || 'dev'));
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json({type: 'application/json'}));
@@ -21,9 +20,7 @@ app.use(favicon(__dirname + '/public/favicon.ico'));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(session({
     secret: fs.readFileSync(config.secretFile, 'utf-8'),
-    cookie: {secret: true},
-    resave: false,
-    saveUninitialized: true
+    secure: true
 }));
 
 shibboleth.initialize(app);

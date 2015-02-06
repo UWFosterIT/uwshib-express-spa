@@ -27,7 +27,7 @@ What works for us are the instructions below.  This is running on Ubuntu Server 
 If you want express to do the SSL work without a proxy you can eaisly in ``bin/mySiteWWW`` use ``https.createServer({key: config.key, cert: config.cert}, app);`` instead of ``http.createServer(app);``, but just remember that you will only be able to serve a single site without some hackery express server wrapper code.
 
 **Sample Prereqruisite Checklist**
-- [ ] Setup a server, the jsteps below use Ubuntu Server 14.04
+- [ ] Setup a server, the steps below use Ubuntu Server 14.04
 - [ ] Have a DNS entry made for each site that you want to serve
 - [ ] [Get a certificate for your server](https://wiki.cac.washington.edu/display/infra/UW+Certificate+Services)
 - [ ] [Have access to register your Shibboleth SP](https://wiki.cac.washington.edu/display/infra/UW+Certificate+Services)
