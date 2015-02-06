@@ -18,9 +18,13 @@ app.use(bodyParser.json({type: 'application/json'}));
 app.use(cookieParser());
 app.use(favicon(__dirname + '/public/favicon.ico'));
 app.use(express.static(path.join(__dirname, 'public')));
+
+// refer to https://github.com/expressjs/cookie-session
+// the cookie will be secure in production and permitted to be sent there
 app.use(session({
     secret: fs.readFileSync(config.secretFile, 'utf-8'),
-    secure: true
+    secure: false,
+    secureProxy: true
 }));
 
 shibboleth.initialize(app);
