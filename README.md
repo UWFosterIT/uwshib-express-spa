@@ -21,6 +21,11 @@ You should change the name of ``bin/mysiteWWW``.  It's a good idea to name the f
 
 Now browse to [http://localhost:3000](http://localhost:3000). You are all set.  Tweak things as needed, add more routes etc.
 
+#### Gruntfile
+Eslint is provided for JavaScript linting.
+
+    grunt eslint
+
 ### PRODUCTION SETUP AND START
 What works for us are the instructions below.  This is running on Ubuntu Server 14.0 with Nginx as a proxy.  The proxy enables us to let Nginx do all the SSL work in conjunction with a wildcard cert ``*.foster.washington.edu``. Each site has it's own Nginx configuration file and instance of this repo.
 
@@ -63,7 +68,7 @@ You can use your CI server or some other deployment method to deploy your app.  
     cd ~/
     git clone git@github.com:UWFosterIT/uwshib-express-spa.git
     cd uwshib-express-spa
-    npm install
+    npm install --production
     cp sitename.conf /etc/nginx/conf.d/sitename.conf
     sudo service nginx restart
 
