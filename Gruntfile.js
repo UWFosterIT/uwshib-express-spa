@@ -5,7 +5,6 @@ module.exports = function(grunt) {
   grunt.option('stack', true);
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-express-server');
-  grunt.loadNpmTasks('grunt-webdriver');
   grunt.loadNpmTasks('grunt-simple-mocha');
   grunt.loadNpmTasks('grunt-mocha-cov');
   grunt.loadNpmTasks('grunt-eslint');
@@ -69,24 +68,9 @@ module.exports = function(grunt) {
       }
     },
 
-    webdriver: {
-      acceptance: {
-        tests: ['test/acceptance/*-spec.js'],
-        options: {
-          timeout: 10000000,
-          desiredCapabilities: {
-            browserName: 'chrome'
-          }
-        }
-      }
-    },
-
-
     express: {
       options: {
         // Override defaults here
-        output: 'listening'
-        //background: true
       },
       dev: {
         options: {
@@ -112,12 +96,12 @@ module.exports = function(grunt) {
     watch: {
       dev: {
         files: ['app.js', 'config.js', 'routes/*.js', 'public/**/*', 'helpers/*.js', 'bin/mysiteWWW'],
-        tasks: ['build']
+        tasks: ['test']
       }
     }
   }); //end initConfig
 
-  grunt.registerTask('test', [ 'simplemocha', 'express:test', 'webdriver']);
+  grunt.registerTask('test', [ 'eslint', 'simplemocha', 'express:test']);
   grunt.registerTask('default', ['test', 'watch']);
   grunt.registerTask('serve', [ 'express:dev', 'watch']);
 
