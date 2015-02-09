@@ -1,3 +1,5 @@
+'use strict';
+
 var passport = require('passport');
 var uwshib   = require('passport-uwshib');
 var config   = require('../config');
@@ -7,7 +9,7 @@ var config   = require('../config');
 // https://github.com/drstearns/passport-uwshib
 //
 var initializeUWShib = function(app) {
-  if (config.domain != 'localhost') {
+  if (config.domain !== 'localhost') {
     app.use(passport.initialize());
     app.use(passport.session());
 
@@ -52,7 +54,7 @@ var verifyAuthorization = function authorize() {
         res.redirect(config.loginURL);
       }
     }
-  }
+  };
 };
 
 var currentUser = function user(req){

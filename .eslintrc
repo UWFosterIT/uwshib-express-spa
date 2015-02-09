@@ -1,0 +1,19 @@
+{
+  "ecmaFeatures": {
+    "jsx": true,
+    "blockBindings": true,
+    "defaultParams": true,
+    "generators": true,
+    "templateStrings": true,
+    "forOf": true
+  },
+  "env": {
+    "mocha": true,
+    "node": true,
+    "browser": true
+  },
+  "rules": {
+    "quotes": [1, "single"],
+    "no-multi-spaces": 0
+  }
+}
