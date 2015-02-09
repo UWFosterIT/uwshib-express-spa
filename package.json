@@ -42,7 +42,6 @@
     "grunt-eslint": "^5.2.0",
     "grunt-express-server": "^0.4.19",
     "grunt-mocha-cov": "^0.3.0",
-    "grunt-simple-mocha": "^0.4.0",
-    "grunt-webdriver": "^0.4.8"
+    "grunt-simple-mocha": "^0.4.0"
   }
 }
