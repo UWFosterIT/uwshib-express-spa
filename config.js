@@ -11,18 +11,18 @@ var path = require('path');
 var config = {
   domain:      process.env.DOMAIN || 'localhost',
   port:        process.env.PORT   || 3000,
-  certFile:    process.env.CERT   || "",
-  keyFile:     process.env.KEY    || "",
-  secretFile:  process.env.SECRET || path.join(__dirname, "/session_secret"),
-  cert:        "",
-  key:         "",
+  certFile:    process.env.CERT   || '',
+  keyFile:     process.env.KEY    || '',
+  secretFile:  process.env.SECRET || path.join(__dirname, '/session_secret'),
+  cert:        '',
+  key:         '',
   loginURL:    '/login',
   callBackURL: '/login/callback',
   testUser: {
-    principalName : "foster_tester@washington.edu",
-    affiliation : ["member", "staff", "employee"],
-    netId : "foster_tester",
-    WARNING: "THIS IS NOT A VALID SHIBBOLETH USER OR NETID"
+    principalName : 'foster_tester@washington.edu',
+    affiliation : ['member', 'staff', 'employee'],
+    netId : 'foster_tester',
+    WARNING: 'THIS IS NOT A VALID SHIBBOLETH USER OR NETID'
   }
 };
 

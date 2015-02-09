@@ -33,7 +33,7 @@ module.exports = function(shibboleth) {
     var obj = {
       siteName: siteName,
       message: 'First redirects to UW Web Login on test or dev, then back here',
-      user: req.user != null ? "UW User exists" : "No UW user for this request",
+      user: req.user != null ? 'UW User exists' : 'No UW user for this request',
       userObj: shibboleth.currentUser(req)
     };
     res.status(200).json(obj);

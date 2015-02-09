@@ -15,7 +15,7 @@ var initializeUWShib = function(app) {
 
     // Create the UW Shibboleth Strategy and tell Passport to use it
     var strategy = new uwshib.Strategy({
-      entityId: "https://" + config.domain,
+      entityId: 'https://' + config.domain,
       privateKey: config.key,
       callbackUrl: config.callBackURL,
       domain: config.domain
