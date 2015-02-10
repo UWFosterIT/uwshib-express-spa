@@ -3,11 +3,10 @@
 module.exports = function(grunt) {
 
   grunt.option('stack', true);
-  grunt.loadNpmTasks('grunt-contrib-watch');
-  grunt.loadNpmTasks('grunt-express-server');
-  grunt.loadNpmTasks('grunt-simple-mocha');
-  grunt.loadNpmTasks('grunt-mocha-cov');
-  grunt.loadNpmTasks('grunt-eslint');
+
+  require('time-grunt')(grunt);
+
+  require('load-grunt-tasks')(grunt);
 
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
