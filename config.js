@@ -1,6 +1,6 @@
 /* eslint-disable key-spacing */
-let fs   = require('fs');
-let path = require('path');
+const fs   = require('fs');
+const path = require('path');
 
 // infer http localhost with all env vars if not specified
 // DOMAIN must match url used in nginx conf and have valid DNS entry with UW
@@ -8,7 +8,7 @@ let path = require('path');
 // CERT is full path to the certficate file
 // KEY  is full path to the key file used with the cert
 // SECRET is the full path to the secret file used for sessions
-let config = {
+const config = {
   domain:      process.env.DOMAIN || 'localhost',
   port:        process.env.PORT   || 3000,
   certFile:    process.env.CERT   || '',
