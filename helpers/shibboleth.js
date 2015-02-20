@@ -1,20 +1,20 @@
 'use strict';
 
-var passport = require('passport');
-var uwshib   = require('passport-uwshib');
-var config   = require('../config');
+let passport = require('passport');
+let uwshib   = require('passport-uwshib');
+let config   = require('../config');
 
 //
 // see passport-uwshib for how this works
 // https://github.com/drstearns/passport-uwshib
 //
-var initializeUWShib = function(app) {
+let initializeUWShib = (app) => {
   if (config.domain !== 'localhost') {
     app.use(passport.initialize());
     app.use(passport.session());
 
     // Create the UW Shibboleth Strategy and tell Passport to use it
-    var strategy = new uwshib.Strategy({
+    let strategy = new uwshib.Strategy({
       entityId: 'https://' + config.domain,
       privateKey: config.key,
       callbackUrl: config.callBackURL,
@@ -24,11 +24,11 @@ var initializeUWShib = function(app) {
     passport.use(strategy);
 
     // see passport-uwshib for what the serialization is for
-    passport.serializeUser(function(user, done){
+    passport.serializeUser((user, done) => {
         done(null, user);
     });
 
-    passport.deserializeUser(function(user, done){
+    passport.deserializeUser((user, done) => {
         done(null, user);
     });
 
@@ -42,7 +42,7 @@ var initializeUWShib = function(app) {
   }
 };
 
-var verifyAuthorization = function authorize() {
+let verifyAuthorization = function authorize() {
   return function(req, res, next) {
     if (config.domain === 'localhost') {
       next();
@@ -57,7 +57,7 @@ var verifyAuthorization = function authorize() {
   };
 };
 
-var currentUser = function user(req){
+let currentUser = function user(req){
   return config.domain === 'localhost' ? config.testUser : req.user;
 };
 

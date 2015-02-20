@@ -1,19 +1,33 @@
 {
+  "settings": {
+    "ecmascript": 6
+  },
   "ecmaFeatures": {
-    "jsx": true,
+    "arrowFunctions": true,
+    "binaryLiterals": true,
     "blockBindings": true,
     "defaultParams": true,
+    "forOf": true,
     "generators": true,
+    "objectLiteralComputedProperties": true,
+    "objectLiteralDuplicateProperties": true,
+    "objectLiteralShorthandMethods": true,
+    "objectLiteralShorthandProperties": true,
+    "octalLiterals": true,
+    "regexUFlag": true,
+    "regexYFlag": true,
+    "superInFunctions": true,
     "templateStrings": true,
-    "forOf": true
+    "unicodeCodePointEscapes": true,
+    "globalReturn": true
   },
   "env": {
     "mocha": true,
-    "node": true,
-    "browser": true
+    "node": true
   },
   "rules": {
     "quotes": [1, "single"],
-    "no-multi-spaces": 0
+    "no-multi-spaces": 0,
+    "strict": 0
   }
 }
