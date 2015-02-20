@@ -1,14 +1,14 @@
 'use strict';
 
-let passport = require('passport');
-let uwshib   = require('passport-uwshib');
-let config   = require('../config');
+const passport = require('passport');
+const uwshib   = require('passport-uwshib');
+const config   = require('../config');
 
 //
 // see passport-uwshib for how this works
 // https://github.com/drstearns/passport-uwshib
 //
-let initializeUWShib = (app) => {
+const initializeUWShib = (app) => {
   if (config.domain !== 'localhost') {
     app.use(passport.initialize());
     app.use(passport.session());
@@ -42,8 +42,8 @@ let initializeUWShib = (app) => {
   }
 };
 
-let verifyAuthorization = function authorize() {
-  return function(req, res, next) {
+const verifyAuthorization = function authorize() {
+  return (req, res, next) => {
     if (config.domain === 'localhost') {
       next();
     } else {
@@ -57,7 +57,7 @@ let verifyAuthorization = function authorize() {
   };
 };
 
-let currentUser = function user(req){
+const currentUser = function user(req){
   return config.domain === 'localhost' ? config.testUser : req.user;
 };
 

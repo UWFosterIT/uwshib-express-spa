@@ -1,19 +1,19 @@
 /* eslint-disable key-spacing */
 'use strict';
 
-let fs           = require('fs');
-let path         = require('path');
-let express      = require('express');
-let favicon      = require('serve-favicon');
-let morgan       = require('morgan');
-let bodyParser   = require('body-parser');
-let cookieParser = require('cookie-parser');
-let session      = require('cookie-session');
-let shibboleth   = require('./helpers/shibboleth');
-let config       = require('./config');
+const fs           = require('fs');
+const path         = require('path');
+const express      = require('express');
+const favicon      = require('serve-favicon');
+const morgan       = require('morgan');
+const bodyParser   = require('body-parser');
+const cookieParser = require('cookie-parser');
+const session      = require('cookie-session');
+const shibboleth   = require('./helpers/shibboleth');
+const config       = require('./config');
 
 // Setup Express
-let app = express();
+const app = express();
 
 app.use(morgan(process.env.LOGFORMAT || 'dev'));
 app.use(bodyParser.urlencoded({extended: true}));
@@ -31,7 +31,7 @@ app.use(session({
 }));
 
 shibboleth.initialize(app);
-let routes = require('./routes/index')(shibboleth);
+const routes = require('./routes/index')(shibboleth);
 app.use('/', routes);
 
 // catch 404 and forward to error handler

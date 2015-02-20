@@ -1,11 +1,11 @@
 'use strict';
 
-let express = require('express');
+const express = require('express');
 
 module.exports = (shibboleth) => {
 
   /*eslint-disable new-cap */
-  let router   = express.Router();
+  const router = express.Router();
   /*eslint enable*/
 
   let siteName = 'UW Shibboleth SPA Multiserver with Nginx proxy';
