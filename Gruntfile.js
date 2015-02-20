@@ -1,5 +1,6 @@
 'use strict';
 
+
 module.exports = function(grunt) {
 
   grunt.option('stack', true);

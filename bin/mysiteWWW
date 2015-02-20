@@ -1,5 +1,8 @@
 #!/usr/bin/env node
 'use strict';
+
+require('babel/register');
+
 /* eslint-disable key-spacing, no-use-before-define, no-process-exit */
 
 var app    = require('../app');

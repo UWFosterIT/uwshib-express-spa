@@ -1,19 +1,19 @@
 /* eslint-disable key-spacing */
 'use strict';
 
-var fs           = require('fs');
-var path         = require('path');
-var express      = require('express');
-var favicon      = require('serve-favicon');
-var morgan       = require('morgan');
-var bodyParser   = require('body-parser');
-var cookieParser = require('cookie-parser');
-var session      = require('cookie-session');
-var shibboleth   = require('./helpers/shibboleth');
-var config       = require('./config');
+let fs           = require('fs');
+let path         = require('path');
+let express      = require('express');
+let favicon      = require('serve-favicon');
+let morgan       = require('morgan');
+let bodyParser   = require('body-parser');
+let cookieParser = require('cookie-parser');
+let session      = require('cookie-session');
+let shibboleth   = require('./helpers/shibboleth');
+let config       = require('./config');
 
 // Setup Express
-var app = express();
+let app = express();
 
 app.use(morgan(process.env.LOGFORMAT || 'dev'));
 app.use(bodyParser.urlencoded({extended: true}));
@@ -31,20 +31,20 @@ app.use(session({
 }));
 
 shibboleth.initialize(app);
-var routes = require('./routes/index')(shibboleth);
+let routes = require('./routes/index')(shibboleth);
 app.use('/', routes);
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
-  var err = new Error('Not Found');
+app.use((req, res, next) => {
+  let err = new Error('Not Found');
   err.status = 404;
   next(err);
 });
 
 // error handler, no stacktraces leaked to user outside of dev environment
-app.use(function(err, req, res) {
-  var stack = app.get('env') === 'development' ? err.stack : {};
-  var msg   = { message: err.message, error: stack };
+app.use((err, req, res) => {
+  let stack = app.get('env') === 'development' ? err.stack : {};
+  let msg   = { message: err.message, error: stack };
 
   res.status(err.status || 500).json(msg);
 });
