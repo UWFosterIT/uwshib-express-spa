@@ -15,16 +15,10 @@ The settings in ``config.js`` should work as is in development, edit it as neede
 The file ``helpers\shibboleth`` implements the [``passport-uwshib``](https://github.com/drstearns/passport-uwshib) node module created by David Stearns. This implementation of it exports a method that your routes can use to require authentication via UW's Shibboleth Identity Provider.  It also exports a user context that is a dummy user while in development.
 
 #### Startup
-You should change the name of ``bin/mysiteWWW``.  It's a good idea to name the file something like ``scholarshipsWWW`` for example so it represents what your app is or does. The file name will show up by default in the process list if using [pm2](https://github.com/Unitech/pm2) or something similar.
 
-    node bin/mysiteWWW
+    npm start
 
 Now browse to [http://localhost:3000](http://localhost:3000). You are all set.  Tweak things as needed, add more routes etc.
-
-#### Gruntfile
-Eslint is provided for JavaScript linting.
-
-    grunt eslint
 
 ### PRODUCTION SETUP AND START
 What works for us are the instructions below.  This is running on Ubuntu Server 14.0 with Nginx as a proxy.  The proxy enables us to let Nginx do all the SSL work in conjunction with a wildcard cert ``*.foster.washington.edu``. Each site has it's own Nginx configuration file and instance of this repo.
@@ -42,9 +36,9 @@ If you want express to do the SSL work without a proxy you can eaisly in ``bin/m
 The following assumes you created a new user and are logged in as it.  Ideally we don't want to run our apps as the root account and the following steps provide that for us.  **NOTE:** You will need to manually edit your bash.rc whenever you install a newer version of node via nvm.
 
     cd ~/
-    curl https://raw.githubusercontent.com/creationix/nvm/v0.18.0/install.sh | bash
-    nvm install 0.10.36
-    echo "nvm use v0.10.36 > /dev/null" >> .bashrc
+    curl https://raw.githubusercontent.com/creationix/nvm/v0.32.0/install.sh | bash
+    nvm install 4.4.3
+    echo "nvm use v4.4.3 > /dev/null" >> .bashrc
     # restart or source shell
 
 #### Nginx
