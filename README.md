@@ -9,7 +9,6 @@ The settings in ``config.js`` should work as is in development, edit it as neede
     git clone git@github.com:UWFosterIT/uwshib-express-spa.git
     cd uwshib-express-spa
     npm install
-    vim config.js
 
 #### UW Shibboleth
 The file ``helpers\shibboleth`` implements the [``passport-uwshib``](https://github.com/drstearns/passport-uwshib) node module created by David Stearns. This implementation of it exports a method that your routes can use to require authentication via UW's Shibboleth Identity Provider.  It also exports a user context that is a dummy user while in development.
@@ -32,7 +31,7 @@ If you want express to do the SSL work without a proxy you can eaisly in ``bin/m
 - [ ] [Have access to register your Shibboleth SP](https://wiki.cac.washington.edu/display/infra/UW+Certificate+Services)
 - [ ] Have a proxy setup on your server like the steps provided below.
 
-#### NVN and Node
+#### NVM and Node
 The following assumes you created a new user and are logged in as it.  Ideally we don't want to run our apps as the root account and the following steps provide that for us.  **NOTE:** You will need to manually edit your bash.rc whenever you install a newer version of node via nvm.
 
     cd ~/
