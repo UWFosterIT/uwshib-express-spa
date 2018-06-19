@@ -1,5 +1,5 @@
-## UW Shibboleth NodeJS Express with Nginx proxy
-This repo contains a working example of a NodeJS web application using Express that can act as a Shibboleth Service Provider to authorize users via the UW Web Login and a UW Identity Provider.  It also includes an nginx conf that can eaisly be duplicated to permit multiple domains running on the same server.
+## UW SAML Service Provider using NodeJS Express with Nginx proxy
+This repo contains a working example of a NodeJS web application using Express that can act as a SAML Service Provider to authorize users via the UW Identity Provider.  It also includes an nginx conf that can eaisly be duplicated to permit multiple domains running on the same server.
 
 ### DEVELOPMENT SETUP AND START
 
@@ -10,7 +10,7 @@ The settings in ``config.js`` should work as is in development, edit it as neede
     cd uwshib-express-spa
     npm install
 
-#### UW Shibboleth
+#### UW SAML
 The file ``helpers\shibboleth`` implements the [``passport-uwshib``](https://github.com/drstearns/passport-uwshib) node module created by David Stearns. This implementation of it exports a method that your routes can use to require authentication via UW's Shibboleth Identity Provider.  It also exports a user context that is a dummy user while in development.
 
 #### Startup
@@ -28,7 +28,7 @@ If you want express to do the SSL work without a proxy you can eaisly in ``bin/m
 - [ ] Setup a server, the steps below use Ubuntu Server 14.04
 - [ ] Have a DNS entry made for each site that you want to serve
 - [ ] [Get a certificate for your server](https://wiki.cac.washington.edu/display/infra/UW+Certificate+Services)
-- [ ] [Have access to register your Shibboleth SP](https://wiki.cac.washington.edu/display/infra/UW+Certificate+Services)
+- [ ] [Register your Service Provider](https://iam-tools.u.washington.edu/spreg/)
 - [ ] Have a proxy setup on your server like the steps provided below.
 
 #### NVM and Node
@@ -71,7 +71,7 @@ The goal is to set all configuration via environment variables as this will make
 
 
 ##### Start your Express app
-It's important here that the ``PORT`` below match the site you want to proxy in the nginx conf files above as well as the ``DOMAIN``. Also, the ``DOMAIN`` is your Shibboleth entitity ID and must match the FQDN.
+It's important here that the ``PORT`` below match the site you want to proxy in the nginx conf files above as well as the ``DOMAIN``. Also, the ``DOMAIN`` is your registered service provider entitity ID and must match the FQDN.
 
     cd ~
     CERT=[FullPathToPEM] KEY=[TheFullPathToKey] DOMAIN=[SiteFQDN] PORT=[ValueUsedInNginxConf] node [FullPathToNodeApp]
@@ -80,7 +80,7 @@ Example using what exists in this repository...(secure your key as you see fit).
 
     CERT=/home/webuser/certs/sslcert.pem KEY=/home/webuser/certs/sslcert.key DOMAIN=scholarships.foster.washington.edu PORT=3000 node uwshib-express-spa/bin/scholarshipsWWW
 
-#### Testing Shibboleth in production
+#### Testing Your SAML Service Provider In Production
 At a minimum your meta data at https://yoursite.yourdept.washington.edu/Shibboleth.sso/Metadata should load without problems.  If that page doesn't load then you have configured something incorrectly.  Once it does load, you should be able to auto register at https://iam-tools.u.washington.edu/spreg.
 
 If upon registering your site there with the *Get metadata from the SP* checked on their form and that registration says you need to do it manually then you may have some sort of mismatch between your nginx conf and or express env vars.
